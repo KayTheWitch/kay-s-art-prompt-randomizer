@@ -5,7 +5,7 @@ import { PromptStudio } from "@/components/PromptStudio";
 
 export const Route = createFileRoute("/$categoria")({
   validateSearch: (search: Record<string, unknown>) => ({
-    p: typeof search.p === "string" ? search.p : undefined,
+    p: typeof search["p"] === "string" ? (search["p"] as string) : undefined,
   }),
   loader: ({ params }) => {
     const category = categoryBySlug(params.categoria);
