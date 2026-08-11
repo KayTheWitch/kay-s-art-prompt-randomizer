@@ -68,24 +68,26 @@ export function PromptStudio({
   }, [hydrated, id]);
 
   return (
-    <div className="grid gap-6 md:grid-cols-[1.6fr_1fr]">
+    <div className="grid gap-5 md:grid-cols-[1.6fr_1fr]">
       <div>
-        <div className="relative rounded-xl border border-border bg-card p-6 shadow-[3px_3px_0_0_var(--color-border)]">
+        <div className="relative rounded-3xl bg-card p-5 toon-lg sm:p-6">
           <span
             className={cn(
-              "text-xs uppercase tracking-[0.18em]",
+              "text-xs font-bold uppercase tracking-[0.18em]",
               accentText[category.accent],
             )}
           >
             {category.name}
           </span>
-          <p className="mt-3 font-display text-3xl leading-tight sm:text-4xl">{sentence}</p>
+          <p className="mt-3 font-display text-2xl font-bold leading-tight sm:text-4xl">
+            {sentence}
+          </p>
 
-          <div className="mt-6 flex flex-wrap gap-2">
+          <div className="mt-5 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             <button
               type="button"
               onClick={() => commit(drawAll(category))}
-              className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+              className="col-span-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-clay px-4 py-2 text-sm font-bold text-background toon toon-press sm:col-span-1"
             >
               <Dices className="h-4 w-4" />
               Sortear tudo
@@ -93,7 +95,7 @@ export function PromptStudio({
             <button
               type="button"
               onClick={save}
-              className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm transition-colors hover:bg-accent"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-card px-3 py-2 text-sm font-semibold toon toon-press"
             >
               {saved?.favorite ? (
                 <BookmarkCheck className="h-4 w-4" />
@@ -105,7 +107,7 @@ export function PromptStudio({
             <button
               type="button"
               onClick={() => copy(sentence, "Prompt copiado")}
-              className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm transition-colors hover:bg-accent"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-card px-3 py-2 text-sm font-semibold toon toon-press"
             >
               <Copy className="h-4 w-4" />
               Copiar
@@ -118,7 +120,7 @@ export function PromptStudio({
                   "Link copiado",
                 )
               }
-              className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm transition-colors hover:bg-accent"
+              className="col-span-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-card px-3 py-2 text-sm font-semibold toon toon-press sm:col-span-1"
             >
               <Link2 className="h-4 w-4" />
               Link
@@ -126,17 +128,17 @@ export function PromptStudio({
           </div>
         </div>
 
-        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+        <div className="mt-5 grid gap-3 sm:grid-cols-2">
           {category.slots.map((slot, index) => (
             <div
               key={slot.key}
               className={cn(
-                "flex items-start justify-between gap-3 rounded-lg border border-border p-3",
+                "flex items-start justify-between gap-3 rounded-2xl p-3 toon",
                 accentSoft[category.accent],
               )}
             >
-              <div>
-                <span className="text-[0.68rem] uppercase tracking-[0.16em] text-muted-foreground">
+              <div className="min-w-0">
+                <span className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground">
                   {slot.label}
                 </span>
                 <p className="mt-0.5 text-sm">{slot.options[picks[index] ?? 0]}</p>
@@ -145,9 +147,9 @@ export function PromptStudio({
                 type="button"
                 aria-label={`Re-sortear ${slot.label}`}
                 onClick={() => commit(reroll(category, picks, index))}
-                className="rounded-md border border-border bg-background p-1.5 transition-colors hover:bg-accent"
+                className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-background toon toon-press"
               >
-                <RefreshCw className="h-3.5 w-3.5" />
+                <RefreshCw className="h-4 w-4" />
               </button>
             </div>
           ))}

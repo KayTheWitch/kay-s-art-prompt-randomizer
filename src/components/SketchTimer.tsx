@@ -47,20 +47,22 @@ export function SketchTimer() {
   const progress = duration > 0 ? 1 - remaining / duration : 0;
 
   return (
-    <div className="rounded-lg border border-border bg-card p-4">
-      <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+    <div className="rounded-3xl bg-card p-4 toon">
+      <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
         <TimerIcon className="h-3.5 w-3.5" />
         Timer de sketch
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-3">
-        <span className="font-display text-4xl tabular-nums">{format(remaining)}</span>
-        <div className="flex gap-2">
+        <span className="font-display text-4xl font-extrabold tabular-nums">
+          {format(remaining)}
+        </span>
+        <div className="flex flex-1 gap-2">
           <button
             type="button"
             onClick={() => setRunning((r) => !r)}
             disabled={remaining === 0}
-            className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-sm text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-40"
+            className="inline-flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-full bg-moss px-3 py-1.5 text-sm font-bold text-background toon toon-press disabled:opacity-40 sm:flex-none"
           >
             {running ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5" />}
             {running ? "Pausar" : "Começar"}
@@ -68,7 +70,7 @@ export function SketchTimer() {
           <button
             type="button"
             onClick={() => pick(duration)}
-            className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm transition-colors hover:bg-accent"
+            className="inline-flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-full bg-background px-3 py-1.5 text-sm font-semibold toon toon-press sm:flex-none"
           >
             <RotateCcw className="h-3.5 w-3.5" />
             Zerar
@@ -76,36 +78,36 @@ export function SketchTimer() {
         </div>
       </div>
 
-      <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-muted">
+      <div className="mt-3 h-3 w-full overflow-hidden rounded-full border-2 border-foreground bg-muted">
         <div
-          className="h-full bg-foreground/70 transition-[width] duration-200"
+          className="h-full bg-clay transition-[width] duration-200"
           style={{ width: `${Math.min(100, progress * 100)}%` }}
         />
       </div>
 
-      <div className="mt-3 flex flex-wrap gap-1.5">
+      <div className="mt-3 flex flex-wrap items-center gap-1.5">
         {PRESETS.map((p) => (
           <button
             key={p.seconds}
             type="button"
             onClick={() => pick(p.seconds)}
             className={cn(
-              "rounded-full border px-2.5 py-1 text-xs transition-colors",
+              "min-h-9 rounded-full border-2 border-foreground px-3 py-1 text-xs font-bold transition-colors",
               duration === p.seconds
-                ? "border-foreground bg-foreground text-background"
-                : "border-border hover:bg-accent",
+                ? "bg-foreground text-background"
+                : "bg-background hover:bg-accent",
             )}
           >
             {p.label}
           </button>
         ))}
-        <label className="ml-auto flex items-center gap-1.5 text-xs text-muted-foreground">
+        <label className="ml-auto flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
           min
           <input
             type="number"
             min={1}
             max={180}
-            className="w-16 rounded-md border border-border bg-background px-2 py-1 text-foreground"
+            className="w-16 rounded-full border-2 border-foreground bg-background px-2 py-1 text-foreground"
             onChange={(e) => {
               const v = Number(e.target.value);
               if (Number.isFinite(v) && v > 0) pick(Math.min(180, Math.round(v)) * 60);

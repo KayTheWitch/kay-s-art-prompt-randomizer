@@ -19,7 +19,7 @@
  */
 
 @theme inline {
-  --font-display: "Instrument Serif", Georgia, serif;
+  --font-display: "Baloo 2", "Work Sans", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Work Sans", ui-sans-serif, system-ui, sans-serif;
   --color-clay: var(--clay);
   --color-moss: var(--moss);
@@ -69,7 +69,8 @@
 }
 
 :root {
-  --radius: 0.4rem;
+  --radius: 1rem;
+  --toon-line: oklch(0.26 0.024 60);
   --paper: oklch(0.963 0.017 85.5);
   --background: oklch(0.963 0.017 85.5);
   --foreground: oklch(0.26 0.024 60);
@@ -111,6 +112,7 @@
 
 .dark {
   --paper: oklch(0.22 0.015 60);
+  --toon-line: oklch(0.08 0.01 60);
   --background: oklch(0.19 0.014 60);
   --foreground: oklch(0.94 0.014 85);
   --card: oklch(0.24 0.016 62);
@@ -173,7 +175,27 @@
   h2,
   h3 {
     font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: -0.01em;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+}
+
+@utility toon {
+  border: 2px solid var(--toon-line);
+  box-shadow: 3px 3px 0 0 var(--toon-line);
+}
+
+@utility toon-lg {
+  border: 3px solid var(--toon-line);
+  box-shadow: 5px 5px 0 0 var(--toon-line);
+}
+
+@utility toon-press {
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 0 var(--toon-line);
   }
 }

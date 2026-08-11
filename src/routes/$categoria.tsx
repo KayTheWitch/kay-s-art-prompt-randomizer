@@ -40,10 +40,10 @@ function CategoriaPage() {
   const initial = decodePicks(category, p);
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10">
-      <h1 className="font-display text-4xl">{category.name}</h1>
+    <div className="mx-auto max-w-5xl px-4 py-6 sm:py-10">
+      <h1 className="font-display text-3xl sm:text-4xl">{category.name}</h1>
       <p className="mt-1 text-sm text-muted-foreground">{category.tagline}</p>
-      <div className="mt-8">
+      <div className="mt-6 sm:mt-8">
         <PromptStudio key={category.slug} category={category} initialPicks={initial} />
       </div>
     </div>

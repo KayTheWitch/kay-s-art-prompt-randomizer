@@ -34,37 +34,39 @@ function Index() {
   };
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-14">
-      <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:py-14">
+      <p className="text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground">
         Prompts para desenhar hoje
       </p>
-      <h1 className="mt-3 max-w-2xl text-5xl leading-[1.05] sm:text-6xl">
+      <h1 className="mt-3 max-w-2xl text-4xl leading-[1.05] sm:text-6xl">
         Escolha uma temática e deixe o sorteio decidir o resto.
       </h1>
-      <p className="mt-4 max-w-xl text-muted-foreground">{description}</p>
+      <p className="mt-4 max-w-xl text-sm text-muted-foreground sm:text-base">{description}</p>
 
       <button
         type="button"
         onClick={surprise}
-        className="mt-6 inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+        className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-clay px-5 py-2.5 text-base font-bold text-background toon-lg toon-press sm:w-auto"
       >
-        <Dices className="h-4 w-4" />
+        <Dices className="h-5 w-5" />
         Sortear de qualquer área
       </button>
 
-      <div className="mt-12 grid gap-4 sm:grid-cols-2">
+      <div className="mt-10 grid gap-4 sm:grid-cols-2">
         {categories.map((category) => (
           <Link
             key={category.slug}
             to="/$categoria"
             params={{ categoria: category.slug }}
             search={{ p: undefined }}
-            className="group rounded-xl border border-border bg-card p-6 transition-shadow hover:shadow-[3px_3px_0_0_var(--color-border)]"
+            className="group rounded-3xl bg-card p-5 toon toon-press sm:p-6"
           >
-            <span className={`block h-1 w-10 rounded-full ${accentBar[category.accent]}`} />
+            <span
+              className={`block h-2.5 w-14 rounded-full border-2 border-foreground ${accentBar[category.accent]}`}
+            />
             <h2 className={`mt-4 text-2xl ${accentText[category.accent]}`}>{category.name}</h2>
             <p className="mt-2 text-sm text-muted-foreground">{category.tagline}</p>
-            <span className="mt-4 inline-flex items-center gap-1.5 text-sm">
+            <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold">
               Sortear
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </span>
