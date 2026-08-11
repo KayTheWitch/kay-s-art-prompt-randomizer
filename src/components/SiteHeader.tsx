@@ -28,6 +28,7 @@ export function SiteHeader() {
               key={c.slug}
               to={`/$categoria`}
               params={{ categoria: c.slug }}
+              search={{ p: undefined }}
               activeProps={{ className: "bg-foreground text-background" }}
               className="shrink-0 rounded-full border-2 border-foreground bg-card px-3 py-1.5 font-semibold transition-colors hover:bg-accent"
             >
