@@ -40,29 +40,28 @@ function SalvosPage() {
           {data.map((item) => {
             const category = categoryBySlug(item.slug);
             return (
-              <li
-                key={item.id}
-                className="flex flex-wrap items-start gap-3 rounded-lg border border-border bg-card p-4"
-              >
+              <li key={item.id} className="rounded-3xl bg-card p-4 toon">
                 <div className="min-w-0 flex-1">
                   {category && (
                     <Link
                       to="/$categoria"
                       params={{ categoria: category.slug }}
                       search={{ p: item.picks.join("-") }}
-                      className={`text-[0.68rem] uppercase tracking-[0.16em] ${accentText[category.accent]}`}
+                      className={`text-[0.68rem] font-bold uppercase tracking-[0.16em] ${accentText[category.accent]}`}
                     >
                       {category.name}
                     </Link>
                   )}
-                  <p className="mt-1 font-display text-xl leading-snug">{item.text}</p>
+                  <p className="mt-1 font-display text-lg font-bold leading-snug sm:text-xl">
+                    {item.text}
+                  </p>
                 </div>
-                <div className="flex gap-1.5">
+                <div className="mt-3 flex gap-2">
                   <button
                     type="button"
                     aria-label="Favoritar"
                     onClick={() => toggleFavorite(item.id)}
-                    className="rounded-md border border-border p-2 transition-colors hover:bg-accent"
+                    className="grid h-10 w-10 place-items-center rounded-full bg-background toon toon-press"
                   >
                     {item.favorite ? (
                       <BookmarkCheck className="h-4 w-4" />
@@ -77,7 +76,7 @@ function SalvosPage() {
                       await navigator.clipboard.writeText(item.text);
                       toast("Prompt copiado");
                     }}
-                    className="rounded-md border border-border p-2 transition-colors hover:bg-accent"
+                    className="grid h-10 w-10 place-items-center rounded-full bg-background toon toon-press"
                   >
                     <Copy className="h-4 w-4" />
                   </button>
@@ -85,7 +84,7 @@ function SalvosPage() {
                     type="button"
                     aria-label="Apagar"
                     onClick={() => remove(item.id)}
-                    className="rounded-md border border-border p-2 transition-colors hover:bg-accent"
+                    className="grid h-10 w-10 place-items-center rounded-full bg-background toon toon-press"
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>
@@ -99,7 +98,7 @@ function SalvosPage() {
   );
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
+    <div className="mx-auto max-w-3xl px-4 py-8 sm:py-10">
       <h1 className="font-display text-4xl">Salvos</h1>
       <p className="mt-1 text-sm text-muted-foreground">
         Tudo fica guardado apenas neste navegador, sem cadastro.
@@ -115,7 +114,7 @@ function SalvosPage() {
             <button
               type="button"
               onClick={clearHistory}
-              className="mt-6 rounded-md border border-border px-3 py-2 text-sm transition-colors hover:bg-accent"
+              className="mt-6 min-h-11 w-full rounded-full bg-card px-3 py-2 text-sm font-bold toon toon-press sm:w-auto"
             >
               Limpar histórico
             </button>
