@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Pause, Play, RotateCcw, Timer as TimerIcon } from "lucide-react";
 import { toast } from "sonner";
+import { useI18n } from "@/i18n/LanguageProvider";
 import { cn } from "@/lib/utils";
 
 const PRESETS = [
@@ -18,6 +19,7 @@ function format(total: number) {
 }
 
 export function SketchTimer() {
+  const { t } = useI18n();
   const [duration, setDuration] = useState(300);
   const [remaining, setRemaining] = useState(300);
   const [running, setRunning] = useState(false);
@@ -31,12 +33,12 @@ export function SketchTimer() {
       setRemaining(left);
       if (left === 0) {
         setRunning(false);
-        toast("Tempo esgotado", { description: "Solte o lápis e olhe o desenho de longe." });
+        toast(t("timeUp"), { description: t("timeUpHint") });
       }
     }, 250);
     return () => window.clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [running]);
+  }, [running, t]);
 
   const pick = useCallback((seconds: number) => {
     setRunning(false);
@@ -50,7 +52,7 @@ export function SketchTimer() {
     <div className="rounded-3xl bg-card p-4 toon">
       <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
         <TimerIcon className="h-3.5 w-3.5" />
-        Timer de sketch
+        {t("sketchTimer")}
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-3">
@@ -65,7 +67,7 @@ export function SketchTimer() {
             className="inline-flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-full bg-moss px-3 py-1.5 text-sm font-bold text-background toon toon-press disabled:opacity-40 sm:flex-none"
           >
             {running ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5" />}
-            {running ? "Pausar" : "Começar"}
+            {running ? t("pause") : t("start")}
           </button>
           <button
             type="button"
@@ -73,7 +75,7 @@ export function SketchTimer() {
             className="inline-flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-full bg-background px-3 py-1.5 text-sm font-semibold toon toon-press sm:flex-none"
           >
             <RotateCcw className="h-3.5 w-3.5" />
-            Zerar
+            {t("reset")}
           </button>
         </div>
       </div>
@@ -102,7 +104,7 @@ export function SketchTimer() {
           </button>
         ))}
         <label className="ml-auto flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
-          min
+          {t("min")}
           <input
             type="number"
             min={1}
