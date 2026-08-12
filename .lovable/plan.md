@@ -4,7 +4,7 @@
 
 Botão compacto "PT | EN" no header (ao lado de "Salvos"), sempre visível no mobile.
 
-- Primeira visita: detecta o idioma do navegador (inglês → EN, qualquer outro → PT).
+- Primeira visita: detecta o idioma do navegador (português → PT, qualquer outro → EN).
 - A escolha fica salva no navegador e vale para todas as páginas.
 - Traduz **tudo**: interface (home, cards, botões, timer, salvos, 404) e também os prompts — cada opção de cada slot ganha versão em inglês, e as frases são montadas com a gramática correta do idioma (conectores como "com/with", "sob/under").
 - Links compartilhados continuam funcionando: o prompt é reconstruído pelos mesmos índices, exibido no idioma atual de quem abrir.
