@@ -6,6 +6,7 @@ import type { Category } from "@/data/categories";
 import { drawAll, encodePicks, reroll, toSentence } from "@/lib/prompt";
 import { useSavedPrompts } from "@/hooks/useSavedPrompts";
 import { SketchTimer } from "@/components/SketchTimer";
+import { useI18n } from "@/i18n/LanguageProvider";
 import { accentText, accentSoft } from "@/lib/accents";
 import { cn } from "@/lib/utils";
 
@@ -17,10 +18,11 @@ export function PromptStudio({
   initialPicks: number[] | null;
 }) {
   const navigate = useNavigate();
+  const { lang, t, tl } = useI18n();
   const [picks, setPicks] = useState<number[]>(() => initialPicks ?? drawAll(category));
   const { items, hydrated, record, toggleFavorite } = useSavedPrompts();
 
-  const sentence = toSentence(category, picks);
+  const sentence = toSentence(category, picks, lang);
   const id = `${category.slug}:${picks.join("-")}`;
   const saved = items.find((i) => i.id === id);
 
@@ -45,11 +47,11 @@ export function PromptStudio({
     record({ slug: category.slug, picks, text: sentence });
     if (saved) {
       toggleFavorite(saved.id);
-      toast(saved.favorite ? "Removido dos favoritos" : "Salvo nos favoritos");
+      toast(saved.favorite ? t("removedFromFavorites") : t("savedToFavorites"));
       return;
     }
     toggleFavorite(id);
-    toast("Salvo nos favoritos");
+    toast(t("savedToFavorites"));
   };
 
   const copy = async (value: string, message: string) => {
@@ -57,7 +59,7 @@ export function PromptStudio({
       await navigator.clipboard.writeText(value);
       toast(message);
     } catch {
-      toast("Não consegui copiar aqui", { description: value });
+      toast(t("copyFailed"), { description: value });
     }
   };
 
@@ -65,7 +67,7 @@ export function PromptStudio({
     if (!hydrated) return;
     record({ slug: category.slug, picks, text: sentence });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hydrated, id]);
+  }, [hydrated, id, lang]);
 
   return (
     <div className="grid gap-5 md:grid-cols-[1.6fr_1fr]">
@@ -77,7 +79,7 @@ export function PromptStudio({
               accentText[category.accent],
             )}
           >
-            {category.name}
+            {tl(category.name)}
           </span>
           <p className="mt-3 font-display text-2xl font-bold leading-tight sm:text-4xl">
             {sentence}
@@ -90,7 +92,7 @@ export function PromptStudio({
               className="col-span-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-clay px-4 py-2 text-sm font-bold text-background toon toon-press sm:col-span-1"
             >
               <Dices className="h-4 w-4" />
-              Sortear tudo
+              {t("drawEverything")}
             </button>
             <button
               type="button"
@@ -102,28 +104,28 @@ export function PromptStudio({
               ) : (
                 <Bookmark className="h-4 w-4" />
               )}
-              {saved?.favorite ? "Favoritado" : "Favoritar"}
+              {saved?.favorite ? t("favorited") : t("favorite")}
             </button>
             <button
               type="button"
-              onClick={() => copy(sentence, "Prompt copiado")}
+              onClick={() => copy(sentence, t("promptCopied"))}
               className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-card px-3 py-2 text-sm font-semibold toon toon-press"
             >
               <Copy className="h-4 w-4" />
-              Copiar
+              {t("copy")}
             </button>
             <button
               type="button"
               onClick={() =>
                 copy(
                   `${typeof window !== "undefined" ? window.location.origin : ""}/${category.slug}?p=${encodePicks(picks)}`,
-                  "Link copiado",
+                  t("linkCopied"),
                 )
               }
               className="col-span-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-card px-3 py-2 text-sm font-semibold toon toon-press sm:col-span-1"
             >
               <Link2 className="h-4 w-4" />
-              Link
+              {t("link")}
             </button>
           </div>
         </div>
@@ -139,13 +141,13 @@ export function PromptStudio({
             >
               <div className="min-w-0">
                 <span className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground">
-                  {slot.label}
+                  {tl(slot.label)}
                 </span>
-                <p className="mt-0.5 text-sm">{slot.options[picks[index] ?? 0]}</p>
+                <p className="mt-0.5 text-sm">{slot.options[lang][picks[index] ?? 0]}</p>
               </div>
               <button
                 type="button"
-                aria-label={`Re-sortear ${slot.label}`}
+                aria-label={`${t("reroll")}: ${tl(slot.label)}`}
                 onClick={() => commit(reroll(category, picks, index))}
                 className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-background toon toon-press"
               >
@@ -157,7 +159,7 @@ export function PromptStudio({
       </div>
 
       <aside className="space-y-4">
-        <p className="text-sm leading-relaxed text-muted-foreground">{category.description}</p>
+        <p className="text-sm leading-relaxed text-muted-foreground">{tl(category.description)}</p>
         <SketchTimer />
       </aside>
     </div>

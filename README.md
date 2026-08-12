@@ -1,24 +1,86 @@
-# Kay's Art Prompt Randomizer
+# Risco Solto — gerador de prompts de desenho / drawing prompt generator
 
-Vamos construir um pequeno aplicativo para gerar randomicamente prompts para desenho. A intenção é que o aplicativo seja usado por artistas que trabalham com arte tradicional ou digital para gerar prompts de temas para seus desenhos. Gostaria que o aplicativo pudesse dividir diversos temas diferentes em áreas diferentes do app para que o usuário tenha certa noção de qual temática o prompt vai se encaixar.
+Aplicativo web que sorteia temas de desenho por área temática, para artistas de arte
+tradicional ou digital. Interface bilíngue (português / inglês).
 
-This project was built with [Lovable](https://lovable.dev).
+Web app that shuffles drawing prompts by theme, for traditional and digital artists.
+Bilingual interface (Portuguese / English).
 
-## Build with Lovable
+---
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/652e2ed6-ead2-4ddc-b1ad-314ead4d579d).
+## Funcionalidades / Features
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+- Quatro áreas temáticas: Personagens & Criaturas, Cenários & Ambientes, Objetos & Still life,
+  Exercícios de estudo.
+- Prompt montado por *slots* (sujeito, traço, ação, clima…), com re-sorteio individual de cada slot.
+- Favoritos e histórico salvos no navegador (`localStorage`), sem cadastro nem banco de dados.
+- Timer de sketch com presets (30s a 25min) e tempo livre.
+- Copiar o prompt como texto ou copiar um link compartilhável que reabre o mesmo sorteio.
+- Seletor de idioma PT/EN: traduz a interface **e** os prompts. Na primeira visita o idioma é
+  detectado pelo navegador (português → PT, qualquer outro → EN) e a escolha fica salva.
 
-## Development
+## Stack
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+| Camada | Tecnologia |
+| --- | --- |
+| UI | React 19 |
+| Framework | TanStack Start 1.x (SSR, servido em runtime edge) |
+| Rotas | TanStack Router (file-based routing em `src/routes`) |
+| Dados assíncronos | TanStack Query |
+| Build | Vite 7 + `@tanstack/router-plugin` |
+| Linguagem | TypeScript 5 (strict), path alias `@/*` |
+| Estilos | Tailwind CSS v4 configurado em `src/styles.css` (tokens `@theme`, sem `tailwind.config.js`) |
+| Componentes | shadcn/ui sobre Radix UI, `class-variance-authority`, `tailwind-merge` |
+| Ícones | lucide-react |
+| Toasts | sonner |
+| Validação | zod |
+| Formulários | react-hook-form + `@hookform/resolvers` |
+| Qualidade | ESLint 9 (flat config) + Prettier |
+| Runtime/dev | Node.js 20+ ou Bun; deploy como Worker edge |
+
+Sem backend, sem banco de dados e sem autenticação: todo o estado do usuário vive no navegador.
+
+## Estrutura do projeto
+
+```text
+src/
+  routes/            rotas file-based (__root.tsx, index.tsx, $categoria.tsx, salvos.tsx)
+  components/        PromptStudio, SketchTimer, SiteHeader, LanguageToggle, ui/ (shadcn)
+  data/categories.ts bancos de palavras bilíngues por categoria e slot
+  i18n/              LanguageProvider (contexto + localStorage) e strings.ts (textos de UI)
+  lib/               prompt.ts (sorteio, frase, encode/decode do link), accents.ts, utils.ts
+  hooks/             useSavedPrompts (favoritos e histórico em localStorage)
+  styles.css         design system: cores, fontes e utilitários "toon"
+```
+
+## Como o gerador funciona
+
+Cada categoria define slots ordenados; um sorteio é apenas um array de índices
+(`[3, 7, 1, 0]`). A frase é montada em `src/lib/prompt.ts` juntando as opções do idioma ativo
+com os conectores certos (`com` / `with`, `sob` / `under`). Como o link compartilhável guarda
+somente os índices (`/personagens?p=3-7-1-0`), o mesmo prompt reabre em qualquer idioma.
+
+## Rodando localmente
+
+Requer Node.js 20+ (ou Bun) e npm.
 
 ```sh
 git clone <this-repository-url>
 cd <repository-name>
 npm i
-npm run dev
+npm run dev      # http://localhost:8080
 ```
+
+Scripts: `dev`, `build`, `build:dev`, `preview`, `lint`, `format`.
+
+## Adicionando categorias ou palavras
+
+Edite `src/data/categories.ts`. Cada slot tem `options: { pt: string[]; en: string[] }` — as duas
+listas precisam ter o **mesmo tamanho e a mesma ordem**, porque o índice é o que viaja no link
+compartilhado. Para uma nova categoria, adicione o objeto com `slug`, `name`, `short`, `tagline`,
+`description`, `accent` e os slots; a rota `/$categoria` e a navegação se atualizam sozinhas.
+
+---
+
+Este projeto foi criado com [Lovable](https://lovable.dev) — continue no
+[editor](https://lovable.dev/projects/652e2ed6-ead2-4ddc-b1ad-314ead4d579d).

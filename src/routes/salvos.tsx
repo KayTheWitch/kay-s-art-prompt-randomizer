@@ -1,23 +1,22 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Bookmark, BookmarkCheck, Copy, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { useSavedPrompts } from "@/hooks/useSavedPrompts";
+import { useSavedPrompts, type SavedPrompt } from "@/hooks/useSavedPrompts";
 import { categoryBySlug } from "@/data/categories";
+import { toSentence } from "@/lib/prompt";
+import { useI18n } from "@/i18n/LanguageProvider";
 import { accentText } from "@/lib/accents";
+
+const description =
+  "Seus prompts de desenho favoritados e o histórico dos últimos sorteios. Your favorite drawing prompts and recent shuffles.";
 
 export const Route = createFileRoute("/salvos")({
   head: () => ({
     meta: [
       { title: "Favoritos e histórico de prompts | Risco Solto" },
-      {
-        name: "description",
-        content: "Seus prompts de desenho favoritados e o histórico dos últimos sorteios.",
-      },
+      { name: "description", content: description },
       { property: "og:title", content: "Favoritos e histórico de prompts | Risco Solto" },
-      {
-        property: "og:description",
-        content: "Seus prompts de desenho favoritados e o histórico dos últimos sorteios.",
-      },
+      { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -27,10 +26,17 @@ export const Route = createFileRoute("/salvos")({
 
 function SalvosPage() {
   const { items, hydrated, toggleFavorite, remove, clearHistory } = useSavedPrompts();
+  const { lang, t, tl } = useI18n();
   const favorites = items.filter((i) => i.favorite);
   const history = items.filter((i) => !i.favorite);
 
-  const list = (title: string, data: typeof items, empty: string) => (
+  const textOf = (item: SavedPrompt) => {
+    const category = categoryBySlug(item.slug);
+    if (!category) return item.text;
+    return toSentence(category, item.picks, lang);
+  };
+
+  const list = (title: string, data: SavedPrompt[], empty: string) => (
     <section className="mt-10">
       <h2 className="font-display text-2xl">{title}</h2>
       {data.length === 0 ? (
@@ -49,17 +55,17 @@ function SalvosPage() {
                       search={{ p: item.picks.join("-") }}
                       className={`text-[0.68rem] font-bold uppercase tracking-[0.16em] ${accentText[category.accent]}`}
                     >
-                      {category.name}
+                      {tl(category.name)}
                     </Link>
                   )}
                   <p className="mt-1 font-display text-lg font-bold leading-snug sm:text-xl">
-                    {item.text}
+                    {textOf(item)}
                   </p>
                 </div>
                 <div className="mt-3 flex gap-2">
                   <button
                     type="button"
-                    aria-label="Favoritar"
+                    aria-label={t("favorite")}
                     onClick={() => toggleFavorite(item.id)}
                     className="grid h-10 w-10 place-items-center rounded-full bg-background toon toon-press"
                   >
@@ -71,10 +77,10 @@ function SalvosPage() {
                   </button>
                   <button
                     type="button"
-                    aria-label="Copiar"
+                    aria-label={t("copy")}
                     onClick={async () => {
-                      await navigator.clipboard.writeText(item.text);
-                      toast("Prompt copiado");
+                      await navigator.clipboard.writeText(textOf(item));
+                      toast(t("promptCopied"));
                     }}
                     className="grid h-10 w-10 place-items-center rounded-full bg-background toon toon-press"
                   >
@@ -82,7 +88,7 @@ function SalvosPage() {
                   </button>
                   <button
                     type="button"
-                    aria-label="Apagar"
+                    aria-label={t("delete")}
                     onClick={() => remove(item.id)}
                     className="grid h-10 w-10 place-items-center rounded-full bg-background toon toon-press"
                   >
@@ -99,24 +105,22 @@ function SalvosPage() {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 sm:py-10">
-      <h1 className="font-display text-4xl">Salvos</h1>
-      <p className="mt-1 text-sm text-muted-foreground">
-        Tudo fica guardado apenas neste navegador, sem cadastro.
-      </p>
+      <h1 className="font-display text-4xl">{t("savedTitle")}</h1>
+      <p className="mt-1 text-sm text-muted-foreground">{t("savedSubtitle")}</p>
 
       {!hydrated ? (
-        <p className="mt-10 text-sm text-muted-foreground">Carregando…</p>
+        <p className="mt-10 text-sm text-muted-foreground">{t("loading")}</p>
       ) : (
         <>
-          {list("Favoritos", favorites, "Nenhum favorito ainda. Sorteie e clique em Favoritar.")}
-          {list("Histórico", history, "Seus últimos sorteios aparecem aqui.")}
+          {list(t("favorites"), favorites, t("noFavorites"))}
+          {list(t("history"), history, t("noHistory"))}
           {history.length > 0 && (
             <button
               type="button"
               onClick={clearHistory}
               className="mt-6 min-h-11 w-full rounded-full bg-card px-3 py-2 text-sm font-bold toon toon-press sm:w-auto"
             >
-              Limpar histórico
+              {t("clearHistory")}
             </button>
           )}
         </>
