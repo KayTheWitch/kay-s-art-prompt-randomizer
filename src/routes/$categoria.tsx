@@ -22,12 +22,12 @@ export const Route = createFileRoute("/$categoria")({
     if (!loaderData) {
       return {
         meta: [
-          { title: "Categoria não encontrada — Risco Solto" },
+          { title: "Categoria não encontrada — Kay's Art Prompt Maker" },
           { name: "robots", content: "noindex" },
         ],
       };
     }
-    const title = `${loaderData.name} / ${loaderData.nameEn} — prompts de desenho | Risco Solto`;
+    const title = `${loaderData.name} / ${loaderData.nameEn} — prompts de desenho | Kay's Art Prompt Maker`;
     return {
       meta: [
         { title },

@@ -11,9 +11,9 @@ const description =
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Risco Solto — gerador de prompts de desenho" },
+      { title: "Kay's Art Prompt Maker — gerador de prompts de desenho" },
       { name: "description", content: description },
-      { property: "og:title", content: "Risco Solto — gerador de prompts de desenho" },
+      { property: "og:title", content: "Kay's Art Prompt Maker — gerador de prompts de desenho" },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

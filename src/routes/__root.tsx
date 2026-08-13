@@ -80,12 +80,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Risco Solto — prompts de desenho" },
+      { title: "Kay's Art Prompt Maker — prompts de desenho" },
       {
         name: "description",
         content: "Gerador de prompts temáticos de desenho para artistas tradicionais e digitais.",
       },
-      { property: "og:title", content: "Risco Solto — prompts de desenho" },
+      { property: "og:title", content: "Kay's Art Prompt Maker — prompts de desenho" },
       {
         property: "og:description",
         content: "Gerador de prompts temáticos de desenho para artistas tradicionais e digitais.",
