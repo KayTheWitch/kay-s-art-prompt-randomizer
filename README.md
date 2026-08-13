@@ -1,4 +1,4 @@
-# Risco Solto — gerador de prompts de desenho / drawing prompt generator
+# Kay's Art Prompt Maker — gerador de prompts de desenho / drawing prompt generator
 
 Aplicativo web que sorteia temas de desenho por área temática, para artistas de arte
 tradicional ou digital. Interface bilíngue (português / inglês).
@@ -16,6 +16,8 @@ Bilingual interface (Portuguese / English).
 - Favoritos e histórico salvos no navegador (`localStorage`), sem cadastro nem banco de dados.
 - Timer de sketch com presets (30s a 25min) e tempo livre.
 - Copiar o prompt como texto ou copiar um link compartilhável que reabre o mesmo sorteio.
+- Instalável no celular (PWA): ícone na tela inicial, tela cheia e funcionamento offline
+  no app publicado (service worker gerado por `vite-plugin-pwa`, desativado no preview/dev).
 - Seletor de idioma PT/EN: traduz a interface **e** os prompts. Na primeira visita o idioma é
   detectado pelo navegador (português → PT, qualquer outro → EN) e a escolha fica salva.
 
@@ -33,6 +35,7 @@ Bilingual interface (Portuguese / English).
 | Componentes | shadcn/ui sobre Radix UI, `class-variance-authority`, `tailwind-merge` |
 | Ícones | lucide-react |
 | Toasts | sonner |
+| PWA | vite-plugin-pwa (generateSW, offline) |
 | Validação | zod |
 | Formulários | react-hook-form + `@hookform/resolvers` |
 | Qualidade | ESLint 9 (flat config) + Prettier |

@@ -13,9 +13,9 @@ const description =
 export const Route = createFileRoute("/salvos")({
   head: () => ({
     meta: [
-      { title: "Favoritos e histórico de prompts | Risco Solto" },
+      { title: "Favoritos e histórico de prompts | Kay's Art Prompt Maker" },
       { name: "description", content: description },
-      { property: "og:title", content: "Favoritos e histórico de prompts | Risco Solto" },
+      { property: "og:title", content: "Favoritos e histórico de prompts | Kay's Art Prompt Maker" },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

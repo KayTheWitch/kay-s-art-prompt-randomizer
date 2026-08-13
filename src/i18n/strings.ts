@@ -1,7 +1,7 @@
 import type { Lang } from "@/data/categories";
 
 export const strings = {
-  brand: { pt: "Risco Solto", en: "Risco Solto" },
+  brand: { pt: "Kay's Art Prompt Maker", en: "Kay's Art Prompt Maker" },
   saved: { pt: "Salvos", en: "Saved" },
   language: { pt: "Idioma", en: "Language" },
   // home
