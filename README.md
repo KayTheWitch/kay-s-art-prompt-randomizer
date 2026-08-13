@@ -1,9 +1,9 @@
 # Kay's Art Prompt Maker — gerador de prompts de desenho / drawing prompt generator
 
-Aplicativo web que sorteia temas de desenho por área temática, para artistas de arte
+Aplicativo web de uso pessoal que sorteia temas de desenho por área temática, para artistas de arte
 tradicional ou digital. Interface bilíngue (português / inglês).
 
-Web app that shuffles drawing prompts by theme, for traditional and digital artists.
+Web app for personal use that shuffles drawing prompts by theme, for traditional and digital artists.
 Bilingual interface (Portuguese / English).
 
 ---
@@ -41,7 +41,7 @@ Bilingual interface (Portuguese / English).
 | Qualidade | ESLint 9 (flat config) + Prettier |
 | Runtime/dev | Node.js 20+ ou Bun; deploy como Worker edge |
 
-Sem backend, sem banco de dados e sem autenticação: todo o estado do usuário vive no navegador.
+Sem backend, sem banco de dados e sem autenticação: todo os dados do usuário vivem no navegador.
 
 ## Estrutura do projeto
 
@@ -82,8 +82,3 @@ Edite `src/data/categories.ts`. Cada slot tem `options: { pt: string[]; en: stri
 listas precisam ter o **mesmo tamanho e a mesma ordem**, porque o índice é o que viaja no link
 compartilhado. Para uma nova categoria, adicione o objeto com `slug`, `name`, `short`, `tagline`,
 `description`, `accent` e os slots; a rota `/$categoria` e a navegação se atualizam sozinhas.
-
----
-
-Este projeto foi criado com [Lovable](https://lovable.dev) — continue no
-[editor](https://lovable.dev/projects/652e2ed6-ead2-4ddc-b1ad-314ead4d579d).
