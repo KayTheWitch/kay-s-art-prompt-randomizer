@@ -1,0 +1,16 @@
+{
+  "name": "Kay's Art Prompt Maker",
+  "short_name": "Art Prompts",
+  "description": "Gerador de prompts temáticos de desenho para artistas tradicionais e digitais. Drawing prompt generator for traditional and digital artists.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f0e4",
+  "theme_color": "#c4643a",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
