@@ -53,7 +53,7 @@ function candidates(category: Category, index: number, blocked?: ReadonlySet<str
 export function drawSlot(
   category: Category,
   index: number,
-  { blocked, rng = defaultRng }: DrawOptions & { avoid?: number } = {},
+  { blocked, rng = defaultRng }: DrawOptions = {},
   avoid?: number,
 ): number {
   const pool = candidates(category, index, blocked);
