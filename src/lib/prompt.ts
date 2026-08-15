@@ -106,7 +106,7 @@ export function toSentence(
   category: Category,
   picks: number[],
   lang: Lang,
-  options: { limit?: number; extra?: string } = {},
+  options: { limit?: number; extra?: string | undefined } = {},
 ): string {
   const limit = options.limit ?? category.slots.length;
   const parts = category.slots.slice(0, limit).map((s, i) => {
