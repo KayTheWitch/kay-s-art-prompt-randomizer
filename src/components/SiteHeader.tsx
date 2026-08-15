@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Bookmark, Shuffle } from "lucide-react";
+import { Bookmark, CalendarDays, Shuffle } from "lucide-react";
 import { categories } from "@/data/categories";
 import { useI18n } from "@/i18n/LanguageProvider";
 import { LanguageToggle } from "@/components/LanguageToggle";
@@ -19,6 +19,14 @@ export function SiteHeader() {
           </Link>
           <div className="flex shrink-0 items-center gap-2">
             <LanguageToggle />
+            <Link
+              to="/desafio"
+              activeProps={{ className: "bg-accent" }}
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-card px-3 py-2 text-sm font-semibold toon toon-press"
+            >
+              <CalendarDays className="h-4 w-4" />
+              <span className="hidden sm:inline">{t("daily")}</span>
+            </Link>
             <Link
               to="/salvos"
               activeProps={{ className: "bg-accent" }}
