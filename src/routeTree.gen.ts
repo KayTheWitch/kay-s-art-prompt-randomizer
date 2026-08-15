@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CategoriaRouteImport } from './routes/$categoria'
+import { Route as DesafioRouteImport } from './routes/desafio'
 import { Route as SalvosRouteImport } from './routes/salvos'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const CategoriaRoute = CategoriaRouteImport.update({
   path: '/$categoria',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DesafioRoute = DesafioRouteImport.update({
+  id: '/desafio',
+  path: '/desafio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SalvosRoute = SalvosRouteImport.update({
   id: '/salvos',
   path: '/salvos',
@@ -32,30 +38,34 @@ const SalvosRoute = SalvosRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$categoria': typeof CategoriaRoute
+  '/desafio': typeof DesafioRoute
   '/salvos': typeof SalvosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$categoria': typeof CategoriaRoute
+  '/desafio': typeof DesafioRoute
   '/salvos': typeof SalvosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$categoria': typeof CategoriaRoute
+  '/desafio': typeof DesafioRoute
   '/salvos': typeof SalvosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/$categoria' | '/salvos'
+  fullPaths: '/' | '/$categoria' | '/desafio' | '/salvos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$categoria' | '/salvos'
-  id: '__root__' | '/' | '/$categoria' | '/salvos'
+  to: '/' | '/$categoria' | '/desafio' | '/salvos'
+  id: '__root__' | '/' | '/$categoria' | '/desafio' | '/salvos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CategoriaRoute: typeof CategoriaRoute
+  DesafioRoute: typeof DesafioRoute
   SalvosRoute: typeof SalvosRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategoriaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/desafio': {
+      id: '/desafio'
+      path: '/desafio'
+      fullPath: '/desafio'
+      preLoaderRoute: typeof DesafioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/salvos': {
       id: '/salvos'
       path: '/salvos'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CategoriaRoute: CategoriaRoute,
+  DesafioRoute: DesafioRoute,
   SalvosRoute: SalvosRoute,
 }
 export const routeTree = rootRouteImport

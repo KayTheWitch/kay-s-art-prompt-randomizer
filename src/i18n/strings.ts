@@ -58,6 +58,36 @@ export const strings = {
   clearHistory: { pt: "Limpar histórico", en: "Clear history" },
   loading: { pt: "Carregando…", en: "Loading…" },
   delete: { pt: "Apagar", en: "Delete" },
+  // curadoria
+  difficulty: { pt: "Dificuldade", en: "Difficulty" },
+  difficultyQuick: { pt: "Rápido", en: "Quick" },
+  difficultyStudy: { pt: "Estudo", en: "Study" },
+  difficultyChallenge: { pt: "Desafio", en: "Challenge" },
+  lock: { pt: "Travar", en: "Lock" },
+  unlock: { pt: "Destravar", en: "Unlock" },
+  locked: { pt: "travado", en: "locked" },
+  lockedCount: { pt: "travados", en: "locked" },
+  block: { pt: "Não quero ver mais", en: "Don't show this again" },
+  blockedWord: { pt: "Palavra bloqueada", en: "Word blocked" },
+  unblockWord: { pt: "Desbloquear", en: "Unblock" },
+  blockedTitle: { pt: "Palavras bloqueadas", en: "Blocked words" },
+  noBlocked: {
+    pt: "Nada bloqueado. Use o ícone de bloqueio no estúdio.",
+    en: "Nothing blocked. Use the block icon in the studio.",
+  },
+  clearBlocked: { pt: "Limpar bloqueios", en: "Clear blocks" },
+  allBlockedWarning: {
+    pt: "Tudo bloqueado neste campo — os bloqueios foram ignorados aqui.",
+    en: "Everything is blocked in this field — blocks were ignored here.",
+  },
+  // desafio do dia
+  daily: { pt: "Desafio do dia", en: "Daily challenge" },
+  dailySubtitle: {
+    pt: "Um prompt novo por dia, o mesmo para todo mundo.",
+    en: "A new prompt every day, the same for everyone.",
+  },
+  dailyCardCta: { pt: "Ver o desafio de hoje", en: "See today's challenge" },
+  openCategory: { pt: "Abrir no estúdio", en: "Open in the studio" },
 } satisfies Record<string, Record<Lang, string>>;
 
 export type StringKey = keyof typeof strings;

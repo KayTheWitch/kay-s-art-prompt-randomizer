@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowRight, Dices } from "lucide-react";
+import { ArrowRight, CalendarDays, Dices } from "lucide-react";
 import { categories } from "@/data/categories";
 import { accentBar, accentText } from "@/lib/accents";
 import { drawAll, encodePicks, randomCategory } from "@/lib/prompt";
@@ -55,6 +55,18 @@ function Index() {
       </button>
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
+        <Link
+          to="/desafio"
+          className="group rounded-3xl bg-clay p-5 text-background toon toon-press sm:col-span-2 sm:p-6"
+        >
+          <CalendarDays className="h-6 w-6" />
+          <h2 className="mt-3 text-2xl">{t("daily")}</h2>
+          <p className="mt-2 text-sm opacity-90">{t("dailySubtitle")}</p>
+          <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold">
+            {t("dailyCardCta")}
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </span>
+        </Link>
         {categories.map((category) => (
           <Link
             key={category.slug}

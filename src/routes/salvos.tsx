@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Bookmark, BookmarkCheck, Copy, Trash2 } from "lucide-react";
+import { Ban, Bookmark, BookmarkCheck, Copy, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useSavedPrompts, type SavedPrompt } from "@/hooks/useSavedPrompts";
-import { categoryBySlug } from "@/data/categories";
+import { usePreferences } from "@/hooks/usePreferences";
+import { categories, categoryBySlug } from "@/data/categories";
 import { toSentence } from "@/lib/prompt";
 import { useI18n } from "@/i18n/LanguageProvider";
 import { accentText } from "@/lib/accents";
@@ -26,7 +27,19 @@ export const Route = createFileRoute("/salvos")({
 
 function SalvosPage() {
   const { items, hydrated, toggleFavorite, remove, clearHistory } = useSavedPrompts();
+  const { prefs, blockedSet, toggleBlocked, clearBlocked } = usePreferences();
   const { lang, t, tl } = useI18n();
+
+  const blockedList = prefs.blocked
+    .map((key) => {
+      const [slug, slotKey, raw] = key.split(":");
+      const category = categories.find((c) => c.slug === slug);
+      const slot = category?.slots.find((s) => s.key === slotKey);
+      const index = Number.parseInt(raw ?? "", 10);
+      const label = slot?.options[lang][index];
+      return label ? { key, label, category: category! } : null;
+    })
+    .filter((v): v is { key: string; label: string; category: (typeof categories)[number] } => !!v);
   const favorites = items.filter((i) => i.favorite);
   const history = items.filter((i) => !i.favorite);
 
@@ -123,6 +136,38 @@ function SalvosPage() {
               {t("clearHistory")}
             </button>
           )}
+
+          <section className="mt-10">
+            <h2 className="font-display text-2xl">{t("blockedTitle")}</h2>
+            {blockedSet.size === 0 ? (
+              <p className="mt-2 text-sm text-muted-foreground">{t("noBlocked")}</p>
+            ) : (
+              <>
+                <ul className="mt-4 flex flex-wrap gap-2">
+                  {blockedList.map((b) => (
+                    <li key={b.key}>
+                      <button
+                        type="button"
+                        aria-label={`${t("unblockWord")}: ${b.label}`}
+                        onClick={() => toggleBlocked(b.key)}
+                        className="inline-flex min-h-10 items-center gap-1.5 rounded-full bg-card px-3 py-1.5 text-sm font-semibold toon toon-press"
+                      >
+                        <Ban className={`h-3.5 w-3.5 ${accentText[b.category.accent]}`} />
+                        {b.label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  type="button"
+                  onClick={clearBlocked}
+                  className="mt-4 min-h-11 w-full rounded-full bg-card px-3 py-2 text-sm font-bold toon toon-press sm:w-auto"
+                >
+                  {t("clearBlocked")}
+                </button>
+              </>
+            )}
+          </section>
         </>
       )}
     </div>
